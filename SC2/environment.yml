@@ -1,0 +1,21 @@
+name: sc2_analyse
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  # Téléchargement des données
+  - sra-tools>=3.0
+  # QC & nettoyage
+  - fastqc>=0.12
+  - cutadapt>=4.0
+  - sickle-trim>=1.33
+  - multiqc>=1.20
+  # Alignement & manipulation
+  - bwa>=0.7.17
+  - samtools>=1.19
+  - bcftools>=1.19
+  # Amorces & couverture
+  - bamclipper>=1.0
+  - bedtools>=2.31
+  # Variants & consensus
+  - ivar>=1.4

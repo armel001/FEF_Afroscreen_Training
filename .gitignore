@@ -1,0 +1,50 @@
+# Fichiers générés pendant les TP (les participants les produisent)
+*.fastq
+*.fastq.gz
+*.fq.gz
+*.sam
+*.bam
+*.bai
+*.cram
+*.amb
+*.ann
+*.bwt
+*.pac
+*.sa
+*.fai
+*.bedgraph
+*.vcf
+*.vcf.gz
+*.vcf.gz.csi
+*.consensus.fa
+*_fastqc.zip
+*_fastqc.html
+*.fastp.json
+*.fastp.html
+
+# Dossiers de sortie générés
+**/results/
+**/clean/
+**/fastqc_avant/
+**/fastqc_apres/
+**/nanoplot_avant/
+**/nanoplot_apres/
+**/multiqc_report/
+**/spades_*/
+**/quast_*/
+**/clair3_*/
+
+# Archives temporaires
+*.tar.gz
+*.zip
+sra/
+
+# Système
+.DS_Store
+Thumbs.db
+
+# Exceptions : garder les fichiers de référence (légers, nécessaires)
+!**/data/*.fasta
+!**/data/*.gff3
+!**/data/*.bed
+!**/data/*.bedpe
