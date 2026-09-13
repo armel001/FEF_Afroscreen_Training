@@ -1,6 +1,6 @@
-# Cas d'étude — SARS-CoV-2 (Afrique du Sud)
+# Cas d'étude — SARS-CoV-2
 
-**Formation FEF · Afroscreen — Bio-informatique**
+**Atelier FEF · Afroscreen — Session Bio-informatique**
 
 Analyse complète d'un échantillon SARS-CoV-2 réel, du fichier brut de séquençage au génome consensus et à la liste des variants.
 
@@ -29,7 +29,7 @@ Les outils, la structure du dossier et l'enchaînement des étapes restent, eux,
 | Caractéristique | Valeur |
 |---|---|
 | Pathogène | SARS-CoV-2 |
-| Origine | Afrique du Sud (nov.–déc. 2021) |
+| Origine | Afrique du Sud (nov.–déc. 2021) | https://www.ncbi.nlm.nih.gov/sra/?term=SRR17051908
 | Plateforme | Illumina, paired-end |
 | Protocole | Amplicon ARTIC |
 | Accession (exemple) | `SRR17051908` |
