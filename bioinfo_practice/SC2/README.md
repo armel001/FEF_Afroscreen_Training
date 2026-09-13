@@ -49,8 +49,6 @@ Les outils, la structure du dossier et l'enchaînement des étapes restent, eux,
 | Variants | ivar | `couverture 10`, `fréquence 0.2` |
 | Consensus | ivar | `couverture 10` → N |
 
-> Le retrait des amorces est fait au QC (Cutadapt). Une méthode alternative après alignement (Bamclipper, format BEDPE) est décrite dans l'étape `02_mapping` mais non exécutée, pour ne pas retirer les amorces deux fois.
-
 ---
 
 ## Architecture du dossier
