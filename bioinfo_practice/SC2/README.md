@@ -96,7 +96,7 @@ La sortie de chaque étape est l'entrée de la suivante.
 Un seul environnement conda regroupe tous les outils de l'analyse SC2 :
 
 ```bash
-cd ~/pratique/SC2
+cd ~/bioinfo_practice/SC2
 mamba env create -f environment.yml
 conda activate sc2_analyse
 ```

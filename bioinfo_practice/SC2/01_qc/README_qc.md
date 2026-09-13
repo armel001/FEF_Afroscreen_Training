@@ -47,13 +47,13 @@ fasterq-dump --split-files SRR17051908
 gzip SRR17051908_1.fastq SRR17051908_2.fastq
 ls -lh
 ```
-ref : https://www.ncbi.nlm.nih.gov/sra/?term=SRR17051908  
 ---
+ref : https://www.ncbi.nlm.nih.gov/sra/?term=SRR17051908  
 
 ## Étape 1 — Diagnostic (FastQC)
 
 ```bash
-cd ~/pratique/SC2/01_qc
+cd ~/bioinfo_practice/SC2/01_qc
 fastqc ../data/SRR17051908_1.fastq.gz ../data/SRR17051908_2.fastq.gz -o fastqc_avant/
 ```
 
@@ -143,7 +143,7 @@ fastqc clean/SRR17051908_1.clean.fastq.gz clean/SRR17051908_2.clean.fastq.gz -o 
 ## Étape 6 — Synthèse (MultiQC)
  
 ```bash
-cd ~/pratique/SC2/01_qc
+cd ~/bioinfo_practice/SC2/01_qc
 multiqc . -d -dd 1 -o multiqc_report/
 ```
  

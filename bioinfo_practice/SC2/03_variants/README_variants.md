@@ -30,7 +30,7 @@ Même BAM, deux lectures complémentaires :
 
 ```bash
 conda activate sc2_analyse
-cd ~/pratique/SC2/03_variants
+cd ~/bioinfo_practice/SC2/03_variants
 mkdir -p results
 ```
 
@@ -46,7 +46,7 @@ Fichiers nécessaires :
 Le GFF3 doit porter le **même nom de chromosome** que la référence, sinon ivar ne fait pas le lien.
 
 ```bash
-cd ~/pratique/SC2/data
+cd ~/bioinfo_practice/SC2/data
 
 # nom dans la référence
 head -1 reference.fasta
@@ -70,7 +70,7 @@ sed 's/SARS-CoV-2_Wuhan_MN-908947.3/MN908947.3/g' MN908947.gff3 > reference.gff3
 Le principe brut : positions, bases, fréquences.
 
 ```bash
-cd ~/pratique/SC2/03_variants
+cd ~/bioinfo_practice/SC2/03_variants
 
 samtools mpileup -aa -A -d 0 -B -Q 0 \
   --reference ../data/reference.fasta \
