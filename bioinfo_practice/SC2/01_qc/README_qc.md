@@ -31,7 +31,7 @@ multiqc --version
 ```
 
 ```bash
-cd ~/pratique/SC2/01_qc
+cd ~/bioinfo_practice/SC2/01_qc
 mkdir -p fastqc_avant clean fastqc_apres
 ```
 
@@ -42,7 +42,7 @@ mkdir -p fastqc_avant clean fastqc_apres
 Un seul échantillon, placé dans `../data/` .
 
 ```bash
-cd ~/pratique/SC2/data
+cd ~/bioinfo_practice/SC2/data
 fasterq-dump --split-files SRR17051908
 gzip SRR17051908_1.fastq SRR17051908_2.fastq
 ls -lh
