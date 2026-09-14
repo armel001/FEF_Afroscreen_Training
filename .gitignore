@@ -1,22 +1,40 @@
+# ============================================================
 # Fichiers générés pendant les TP (les participants les produisent)
+# ============================================================
+
+# Lectures brutes et nettoyées
 *.fastq
 *.fastq.gz
+*.fq
 *.fq.gz
+
+# Alignements et index
 *.sam
 *.bam
 *.bai
 *.cram
+*.crai
+
+# Index de référence (bwa, bowtie2, samtools)
 *.amb
 *.ann
 *.bwt
 *.pac
 *.sa
 *.fai
+*.bt2
+*.dict
+
+# Variants et couverture
 *.bedgraph
 *.vcf
 *.vcf.gz
 *.vcf.gz.csi
+*.vcf.gz.tbi
+
+# Consensus et rapports d'outils
 *.consensus.fa
+*.consensus.qual.txt
 *_fastqc.zip
 *_fastqc.html
 *.fastp.json
@@ -24,6 +42,7 @@
 
 # Dossiers de sortie générés
 **/results/
+**/results_isec/
 **/clean/
 **/fastqc_avant/
 **/fastqc_apres/
@@ -34,17 +53,28 @@
 **/quast_*/
 **/clair3_*/
 
-# Archives temporaires
+# Archives et caches de téléchargement
 *.tar.gz
+*.tgz
 *.zip
 sra/
+ncbi_error_report.txt
+
+# Modèles Clair3 (lourds — copiés/téléchargés localement)
+**/data/r1041_*/
+**/data/r941_*/
+**/data/*_model*/
+**/models/
 
 # Système
 .DS_Store
 Thumbs.db
+*~
 
-# Exceptions : garder les fichiers de référence (légers, nécessaires)
-!**/data/*.fasta
+# ============================================================
+# EXCEPTIONS — garder les fichiers de référence (légers, nécessaires aux TP)
+# ============================================================
+!**/data/reference.fasta
 !**/data/*.gff3
 !**/data/*.bed
 !**/data/*.bedpe
