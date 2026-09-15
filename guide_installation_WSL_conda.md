@@ -2,8 +2,6 @@
 
 **Formation FEF · Afroscreen — Bio-informatique**
 
-À faire **avant** la formation, chez vous, pour arriver prêt(e).
-
 - **Windows** : installez d'abord **WSL** (partie 1), puis **Conda** (partie 2).
 - **macOS / Linux** : passez directement à **Conda** (partie 2).
 
