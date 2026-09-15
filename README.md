@@ -147,18 +147,13 @@ L'objectif : constater que les pipelines reproduisent l'analyse manuelle, et app
 
 ---
 
-## Auteurs
+## Facilitateurs
 
-- Thibaut Armel Chérif Gnimadi
-- Kadio Jean-Jacques Olivier Kadio
-- Mohamed Kane
-- Emile Bongono
-- Esther Konou
-- Nicole Vidal
+Thibaut Armel Chérif Gnimadi, Mohamed Kane & Esther Konou
 
 ---
 
 ## Crédits
 
-Formation **FEF · AFROSCREEN** — module bio-informatique.
+Formation **FEF · AFROSCREEN** — module introduction bio-informatique.
 Projet AFROSCREEN : <https://www.afroscreen.org/>
