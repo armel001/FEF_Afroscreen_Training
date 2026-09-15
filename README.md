@@ -47,7 +47,7 @@ bioinfo_practice/
 │   │   └── 03_denovo/               assemblage de novo
 │   ├── nanopore/                voie lectures longues
 │   │   ├── 01_qc/                   contrôle qualité
-│   │   └── 02_mapping/              alignement & consensus (minimap2, Clair3)
+│   │   └── 02_mapping/              alignement & consensus
 │   ├── data/                    référence & fichiers partagés
 │   ├── environment.yml
 │   └── README.md
