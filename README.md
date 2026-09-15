@@ -1,8 +1,8 @@
 # Formation sur la Surveillance Génomique et l'Approche One Health
 
-**FEF · Afroscreen — Module Bio-informatique**
+**FEF · Afroscreen — Module Introduction à la Bio-informatique**
 
-Supports pratiques de la formation en **génomique des pathogènes** du projet **AFROSCREEN**, module bio-informatique.
+Supports pratiques de la formation en **analyse de données génomiques des pathogènes** de l'atelier **AFROSCREEN FEF**, module bio-informatique.
 
 Cette formation apprend à analyser des données de séquençage viral réelles, du fichier brut au génome consensus et à l'identification des variants — **à la main d'abord**, pour comprendre chaque étape, puis avec des **pipelines automatisés**.
 
@@ -22,7 +22,7 @@ Biologistes de laboratoire, bio-informaticiens débutants, médecins et personne
 - Aligner sur une référence, appeler les variants, reconstruire un génome consensus
 - Assembler un génome sans référence (de novo)
 - Comparer les plateformes Illumina et Nanopore
-- Utiliser des pipelines automatisés (GeVarLi, nf-core/viralrecon)
+- Utiliser des pipelines automatisés (nf-core/viralrecon, GeVarLi et autres)
 
 ---
 
@@ -42,22 +42,21 @@ bioinfo_practice/
 │
 ├── MPOX/                    Cas d'étude 2 — Monkeypox virus (shotgun, 2 plateformes)
 │   ├── illumina/                voie lectures courtes
-│   │   ├── 01_qc/                   contrôle qualité (fastp)
-│   │   ├── 02_mapping/              alignement & consensus (bowtie2, bcftools)
-│   │   └── 03_denovo/               assemblage de novo (SPAdes)
+│   │   ├── 01_qc/                   contrôle qualité
+│   │   ├── 02_mapping/              alignement & consensus
+│   │   └── 03_denovo/               assemblage de novo
 │   ├── nanopore/                voie lectures longues
-│   │   ├── 01_qc/                   contrôle qualité (NanoPlot)
+│   │   ├── 01_qc/                   contrôle qualité
 │   │   └── 02_mapping/              alignement & consensus (minimap2, Clair3)
 │   ├── data/                    référence & fichiers partagés
 │   ├── environment.yml
 │   └── README.md
 │
 └── pipelines/               Session pipelines automatisés
-    ├── README.md                installation & lancement de GeVarLi
-    └── pipelines_presentation.pptx
+    ├── README.md                installation des pipelines
 
 presentations/               Supports de cours (théorie & introductions)
-├── introduction_linux/         introduction à la ligne de commande Linux
+├── introduction_linux.pdf         introduction à la ligne de commande Linux
 └── ...                          autres présentations
 ```
 
@@ -67,11 +66,11 @@ presentations/               Supports de cours (théorie & introductions)
 
 ### SARS-CoV-2 — préparation amplicon
 
-Un échantillon Omicron réel séquencé en Illumina par protocole ARTIC. On suit la chaîne complète : QC (Cutadapt, Sickle) → alignement (BWA) → variants et consensus (iVar). Illustre le traitement des données **amplicon** (avec retrait des amorces).
+Un échantillon positif SC2 séquencé en Illumina par protocole ARTIC en Afrique du Sud. On suit la chaîne complète : QC (Cutadapt, Sickle) → alignement (BWA) → variants et consensus (iVar). Illustre le traitement des données **amplicon** (avec retrait des amorces).
 
 ### Monkeypox virus — préparation shotgun, deux plateformes
 
-Le premier cas de mpox détecté au Kenya (2024), séquencé sur **Illumina ET Nanopore** à partir du même échantillon. Illustre la **métagénomique shotgun**, la comparaison **mapping vs de novo**, et la comparaison **Illumina vs Nanopore**. L'identification finale du clade se fait avec Nextclade.
+Le premier cas de mpox détecté au Kenya (2024), séquencé sur **Illumina ET Nanopore** à partir du même échantillon. Illustre la **métagénomique shotgun**, la comparaison **mapping vs de novo**, et la comparaison **Illumina vs Nanopore**.
 
 Chaque cas est autonome et progresse par étapes numérotées. Chaque étape a son `README.md` avec les commandes, leur explication, et l'interprétation des résultats.
 
@@ -83,7 +82,7 @@ Chaque cas est autonome et progresse par étapes numérotées. Chaque étape a s
 
 La formation fonctionne sur **Linux**, **macOS** et **Windows**. Les outils de bio-informatique étant conçus pour des systèmes de type UNIX, les utilisateurs **Windows doivent installer WSL** (Windows Subsystem for Linux), qui fait tourner un vrai Linux (Ubuntu) à l'intérieur de Windows.
 
-### Utilisateurs Windows — installer WSL (à faire AVANT la formation)
+### Utilisateurs Windows — installer WSL 
 
 1. Ouvrir **PowerShell en administrateur** (menu Démarrer → taper « PowerShell » → clic droit → *Exécuter en tant qu'administrateur*).
 2. Lancer :
