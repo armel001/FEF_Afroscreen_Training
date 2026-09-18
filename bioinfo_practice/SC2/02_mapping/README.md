@@ -24,13 +24,13 @@ lectures nettoyées
 
 ```bash
 conda activate sc2_analyse
-cd ~/pratique/SC2/02_mapping
+cd ~/bioinfo_practice/SC2/02_mapping
 mkdir -p results
 ```
 
 Fichiers nécessaires :
 - lectures nettoyées : `../01_qc/clean/SRR17051908_{1,2}.clean.fastq.gz`
-- référence : `../data/reference.fasta` (Wuhan-WIV04-2019, MN996528.1)
+- référence : `../data/reference.fasta` (Wuhan-Hu-1, MN908947.3)
 - amorces : `../data/primers.bedpe`
 
 ---
@@ -119,16 +119,34 @@ Consensus final : `results/SRR17051908.consensus.fa`.
 
 ## Étape 6 — Évaluer le consensus
 
-```bash
-# nombre de N
-grep -v ">" results/SRR17051908.consensus.fa | tr -d '\n' | tr -cd 'Nn' | wc -c
+**Nombre de N** (positions non résolues) :
 
-# profondeur moyenne
-samtools depth -a results/SRR17051908.sorted.bam \
-  | awk '{sum+=$3; n++} END {print "Profondeur moyenne :", sum/n}'
+```bash
+grep -v ">" results/SRR17051908.consensus.fa | tr -d '\n' | tr -cd 'Nn' | wc -c
 ```
 
-> **Lecture** — Beaucoup de N = couverture insuffisante. Un bon consensus SC2 a peu de N.
+**Profondeur moyenne** :
+
+```bash
+samtools depth -a results/SRR17051908.sorted.bam \
+  | awk '{sum+=$3; n++} END {print "Profondeur moyenne :", sum/n"x"}'
+```
+
+**Couverture du génome** (% de positions couvertes à différents seuils) :
+
+```bash
+samtools depth -a results/SRR17051908.sorted.bam \
+  | awk '{n++; if($3>=1)c1++; if($3>=10)c10++; if($3>=20)c20++}
+         END {printf "≥1x: %.1f%%  |  ≥10x: %.1f%%  |  ≥20x: %.1f%%\n", 100*c1/n, 100*c10/n, 100*c20/n}'
+```
+
+**Décorticage de la couverture** :
+- `samtools depth -a` — profondeur à chaque position (colonne 3 = profondeur).
+- `n++` — compte le nombre total de positions.
+- `if($3>=1)c1++` … — compte les positions couvertes à au moins 1×, 10×, 20×.
+- `100*c10/n` — convertit en pourcentage du génome.
+
+> **Lecture** — Le `≥10x` est le chiffre clé : c'est la proportion du génome au-dessus du seuil de fiabilité (les positions < 10× deviennent des N). Un bon consensus SC2 a un `≥10x` élevé et donc peu de N.
 
 ---
 
@@ -141,5 +159,6 @@ samtools depth -a results/SRR17051908.sorted.bam \
 | Amorces | déjà retirées au QC (voir note étape 3) | — |
 | Couverture | `bedtools genomecov -bga` | `.bedgraph` |
 | Consensus | `samtools mpileup \| ivar consensus` | `.consensus.fa` |
+| Évaluer | `grep` / `samtools depth` | N, profondeur, % couvert |
 
 **Sortie clé** : `results/SRR17051908.sorted.bam` → entrée de `03_variants`.
