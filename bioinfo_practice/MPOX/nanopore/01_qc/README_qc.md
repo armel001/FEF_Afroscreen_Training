@@ -1,6 +1,6 @@
 # MPOX · Nanopore · Étape 01 — Contrôle qualité (NanoPlot)
 
-Données : MPXV clade Ib (Nanopore, lectures longues, métagénomique shotgun)
+Données : MPXV clade Ib (métagénomique long-read — Nanopore)
 Sortie : lectures filtrées → entrée de l'étape `02_mapping`
 
 ---
@@ -15,18 +15,6 @@ fastq Nanopore
    → chopper (filtrage qualité/longueur)
    → NanoPlot (contrôle)
 ```
-
----
-
-## Lectures longues : ce qui change
-
-Les lectures Nanopore sont **longues** (jusqu'à des dizaines de kb) mais **moins précises** que l'Illumina (qualité typique Q10-20, erreurs surtout de type indel dans les homopolymères).
-
-- **Outil QC** : NanoPlot (pas FastQC).
-- **Seuils** : on raisonne en Q ~10 (pas Q30) et en longueur.
-- **Force** : les longues lectures franchissent les régions répétées, utiles pour un génome large comme MPOX (~197 kb).
-
----
 
 ## Prérequis
 
@@ -80,7 +68,7 @@ NanoPlot \
 chopper filtre les lectures selon qualité et longueur.
 
 ```bash
-zcat ../../data/SRR32413059.fastq.gz \
+gunzip -c ../../data/SRR32413059.fastq.gz \
   | chopper -q 10 -l 200 \
   | gzip > clean/SRR32413059.clean.fastq.gz
 ```
@@ -88,9 +76,7 @@ zcat ../../data/SRR32413059.fastq.gz \
 **Décorticage** :
 - `chopper -q 10` — garde les lectures de qualité moyenne ≥ 10 (seuil réaliste Nanopore, pas Q30).
 - `-l 200` — garde les lectures ≥ 200 bases (élimine les fragments trop courts).
-- On décompresse (`zcat`), on filtre, on recompresse (`gzip`) — un enchaînement par tubes.
-
-> **Seuils Nanopore ≠ Illumina** — Exiger Q30 sur du Nanopore éliminerait presque tout. Q10 est un seuil réaliste. À ajuster selon la qualité réelle observée dans NanoPlot.
+- On décompresse (`gunzip -c`), on filtre, on recompresse (`gzip`) — un enchaînement par tubes. (`gunzip -c` est préféré à `zcat`, qui pose problème sur macOS.)
 
 ---
 
@@ -103,7 +89,7 @@ NanoPlot \
   --threads 4
 ```
 
-> **✅ Attendu** — Qualité médiane remontée, lectures trop courtes éliminées, distribution resserrée. On compare les rapports avant/après.
+> **Attendu** — Qualité médiane remontée, lectures trop courtes éliminées, distribution resserrée. On compare les rapports avant/après.
 
 ---
 
@@ -124,4 +110,5 @@ NanoPlot \
 - **NanoPlot, pas FastQC** : outil adapté aux lectures longues.
 - **Seuils Nanopore** : Q10 (pas Q30), on raisonne aussi en longueur.
 - **La longueur est une force** : les longues lectures franchissent les régions répétées.
-- **Ne pas sur-filtrer** : en shotgun, les lectures virales sont déjà minoritaires.
+- **`gunzip -c` plutôt que `zcat`** sur macOS (piège fréquent).
+- **Ne pas sur-filtrer** : garder de la marge, les lectures virales exploitables sont précieuses.

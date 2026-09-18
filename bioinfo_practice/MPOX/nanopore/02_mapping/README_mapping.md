@@ -1,6 +1,6 @@
 # MPOX · Nanopore · Étape 02 — Alignement, variants & consensus
 
-Données : MPXV clade Ib (Nanopore, lectures longues, métagénomique shotgun)
+Données : MPXV clade Ib (métagénomique long-read — Nanopore)
 Entrée : lectures filtrées de l'étape `01_qc`
 Sortie : génome consensus
 
@@ -41,7 +41,7 @@ Clair3 exige un **modèle** correspondant à la chimie de la flowcell ET au base
 
 Pour ces données : flowcell **R10.4.1** + **kit v14** + basecaller **SUP** → modèle **`r1041_e82_400bps_sup_v520`**.
 
-> **⚠️ Compatibilité de version — piège important.** Clair3 v2 utilise PyTorch ; les anciens modèles TensorFlow (v1) ne sont **pas compatibles**. Il faut un modèle PyTorch pour Clair3 v2. Bonne nouvelle : l'installation conda de Clair3 **embarque déjà les modèles compatibles**. On les copie depuis l'installation, sans rien télécharger :
+> **Compatibilité de version — piège important.** Clair3 v2 utilise PyTorch ; les anciens modèles TensorFlow (v1) ne sont **pas compatibles**. Il faut un modèle PyTorch pour Clair3 v2. Bonne nouvelle : l'installation conda de Clair3 **embarque déjà les modèles compatibles**. On les copie depuis l'installation, sans rien télécharger :
 
 ```bash
 cd ~/bioinfo_practice/MPOX/data
@@ -82,8 +82,6 @@ samtools flagstat results/SRR32413059.sorted.bam
 - `--MD` — ajoute le tag MD (utile pour l'appel de variants).
 - `| samtools sort` — trie en BAM.
 
-> **Lecture** — En Nanopore single-end, les lignes « paired » du flagstat sont à 0 (normal). Comme en shotgun Illumina, le % aligné reflète la proportion de lectures virales.
-
 ---
 
 ## Étape 2 — Mesurer la couverture
@@ -100,7 +98,7 @@ samtools depth -a results/SRR32413059.sorted.bam \
   | awk '$3>0 {c++} END {print "Positions couvertes :", c}'
 ```
 
-> **Adapter le seuil au Nanopore** — Le shotgun Nanopore a souvent une profondeur plus faible que l'Illumina (moins de reads, plus longs). Si la profondeur moyenne est basse (~10×), un seuil de masquage à 10× masquerait une grande partie du génome. On l'abaisse (ex. 4×) — acceptable car la qualité par base du R10.4.1 est bonne. À ajuster selon la profondeur observée.
+> **Adapter le seuil au Nanopore** — Le Nanopore a souvent une profondeur plus faible que l'Illumina (moins de reads, plus longs). Si la profondeur moyenne est basse (~10×), un seuil de masquage à 10× masquerait une grande partie du génome. On l'abaisse (ex. 5×) — acceptable car la qualité par base du R10.4.1 est bonne. À ajuster selon la profondeur observée.
 
 ---
 
@@ -168,37 +166,6 @@ grep -v ">" results/SRR32413059.consensus.fa | tr -d '\n' | tr -cd 'Nn' | wc -c
 grep -v ">" results/SRR32413059.consensus.fa | tr -d '\n' | wc -c
 ```
 
-> **Lecture** — Sur ~197 kb, le nombre de N indique la complétude du génome reconstruit.
-
----
-
-## Comparaison Illumina vs Nanopore
-
-Le même échantillon a été séquencé sur les deux plateformes. Comparer les résultats est instructif.
-
-### Variants communs aux deux plateformes
-
-```bash
-cd ~/bioinfo_practice/MPOX
-
-# indexer le VCF Illumina (forcer si l'index existe déjà)
-bcftools index -f illumina/02_mapping/results/SRR30229922.filtered.vcf.gz
-
-# intersection des deux VCF
-bcftools isec -n=2 \
-  illumina/02_mapping/results/SRR30229922.filtered.vcf.gz \
-  nanopore/02_mapping/results/clair3_SRR32413059/merge_output.vcf.gz \
-  -p results_isec
-
-# nombre de variants communs
-grep -v "^#" results_isec/0000.vcf | wc -l
-```
-
-**Interprétation** :
-- Les variants **communs** aux deux technologies (chimies, aligneurs et variant callers différents) sont hautement fiables.
-- Les variants **discordants** s'expliquent par : couverture différente selon la plateforme, indels aux homopolymères (spécifiques au Nanopore), seuils de filtrage distincts. Ils méritent un examen manuel.
-- Croiser deux plateformes est une **validation puissante** en surveillance génomique.
-
 ---
 
 ## Récapitulatif
@@ -210,16 +177,3 @@ grep -v "^#" results_isec/0000.vcf | wc -l
 | Couverture | `samtools depth` | profondeur, fraction |
 | Variants | `run_clair3.sh --haploid_precise` | `merge_output.vcf.gz` |
 | Consensus | `bcftools consensus -m low_cov.bed` | `.consensus.fa` |
-| Comparaison | `bcftools isec` | variants communs |
-
----
-
-## Points de vigilance
-
-- **Modèle Clair3 = chimie + basecaller** : et pour Clair3 v2, un modèle **PyTorch** (les modèles TensorFlow v1 sont incompatibles). L'installation conda embarque les bons modèles.
-- **Chemins absolus obligatoires** pour Clair3.
-- **minimap2 map-ont** : aligneur spécifique long-read (pas bwa/bowtie2).
-- **Mode haploïde** (`--haploid_precise`) : un virus est haploïde.
-- **Seuil de masquage adapté** à la profondeur Nanopore (souvent plus bas qu'en Illumina).
-- **Indels aux homopolymères** : le talon d'Achille du Nanopore. Croiser avec Illumina si possible.
-- **`gunzip -c` plutôt que `zcat`** sur macOS (voir étape 01).

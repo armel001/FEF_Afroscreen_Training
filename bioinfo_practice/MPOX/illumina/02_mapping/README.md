@@ -1,6 +1,6 @@
 # MPOX · Illumina · Étape 02 — Alignement, variants & consensus
 
-Données : MPXV clade Ib (Illumina paired-end, métagénomique shotgun)
+Données : MPXV (Illumina paired-end, capture ciblée — Viral Surveillance Panel)
 Entrée : lectures nettoyées de l'étape `01_qc`
 Sortie : génome consensus
 
@@ -85,9 +85,6 @@ samtools flagstat results/SRR30229922.sorted.bam
 - `--threads 4` — parallélisation.
 - `| samtools sort` — trie directement en BAM.
 
-> **Lecture shotgun** — Le taux de lectures alignées peut être faible : en shotgun, seule une fraction des lectures est virale (le reste = hôte, autres organismes). `samtools flagstat` révèle cette proportion. Un faible % aligné n'est pas un échec — c'est la nature du shotgun.
-
----
 
 ## Étape 3 — Couverture (Bedtools)
 
@@ -105,7 +102,7 @@ samtools depth -a results/SRR30229922.sorted.bam \
   | awk '{sum+=$3; n++} END {print "Profondeur moyenne :", sum/n}'
 ```
 
-> **Lecture** — Sur un génome de ~197 kb en shotgun, la couverture peut être partielle si la charge virale de l'échantillon est faible. Les zones < 10 deviendront des N dans le consensus.
+> **Lecture** — Sur un génome de ~197 kb, la couverture peut être inégale selon la charge virale de l'échantillon et l'efficacité de la capture. Les zones < 10 deviendront des N dans le consensus.
 
 ---
 
@@ -176,7 +173,7 @@ bcftools consensus \
 - `bedtools genomecov` + `awk` — liste les régions sous 10× de couverture.
 - `bcftools consensus -m` — applique les variants et masque (N) les régions peu couvertes.
 
-> **Pourquoi masquer ?** En shotgun, la couverture est inégale. Sans masquage, les zones non couvertes hériteraient de la séquence de référence — créant un faux consensus. Le masquage en N indique honnêtement « ici, on ne sait pas ».
+> **Pourquoi masquer ?** La couverture est inégale. Sans masquage, les zones non couvertes hériteraient de la séquence de référence — créant un faux consensus. Le masquage en N indique honnêtement « ici, on ne sait pas ».
 
 ---
 
@@ -211,8 +208,8 @@ grep -v ">" results/SRR30229922.consensus.fa | tr -d '\n' | wc -c
 
 ## Points de vigilance
 
-- **Bowtie2 pour l'alignement**, BCFtools pour variants et consensus (voie shotgun).
+- **Bowtie2 pour l'alignement**, BCFtools pour variants et consensus.
 - **Ploïdie 1** : un virus est haploïde.
-- **Faible % aligné = normal en shotgun** : la plupart des lectures ne sont pas virales.
+- **Taux d'alignement non total** : les lectures non virales résiduelles ne s'alignent pas — c'est normal.
 - **Masquage obligatoire** : sans masquer les zones peu couvertes, le consensus hérite faussement de la référence.
-- **Couverture partielle possible** : selon la charge virale, le génome peut ne pas être couvert entièrement.
+- **Couverture partielle possible** : selon la charge virale et la capture, le génome peut ne pas être couvert entièrement.

@@ -8,37 +8,28 @@ Analyse d'un échantillon MPOX réel, du fichier brut de séquençage au génome
 
 ## Contexte des données
 
-Ces données proviennent du **premier cas de mpox détecté au Kenya**, en juillet 2024. Le patient, un chauffeur routier longue distance ayant voyagé de Kampala (Ouganda) vers Mombasa (Kenya), a présenté les symptômes classiques de l'infection (lésions cutanées). Le prélèvement (matériel de lésion cutanée) a été transmis au **KEMRI** (Kenya Medical Research Institute) pour analyse.
+Ces données proviennent d'un cas de mpox détecté au **Kenya** en juillet 2024 — un chauffeur routier longue distance avec un historique de voyage vers l'Ouganda, présentant les symptômes classiques de l'infection (lésions cutanées). Le prélèvement (écouvillon de lésion cutanée) a été collecté le 25 juillet 2024 et analysé au **KEMRI** (Kenya Medical Research Institute).
 
-L'équipe a appliqué le **séquençage métagénomique non ciblé** (mNGS) pour reconstruire le génome viral directement à partir de l'échantillon clinique, sur deux plateformes (Illumina et Nanopore).
+L'échantillon a été confirmé positif au MPXV par qPCR (gène F3L, Ct ≈ 21), puis séquencé sur **deux plateformes**, Illumina (lectures courtes) et Nanopore (lectures longues), pour reconstruire le génome viral.
 
-Article de référence : Chomba et al., *Genomic sequence analysis of the first mpox virus detected in Kenya*, bioRxiv, 2024 — <https://www.biorxiv.org/content/10.1101/2024.08.20.608891v1>
+Article de référence :
+Langat *et al.*, *Complete genome of an mpox clade 1b virus from Kenya*, **Microbiology Resource Announcements**, 2025 — <https://doi.org/10.1128/mra.00050-25>
 
----
-
-## Métagénomique shotgun
-
-MPOX est ici séquencé en **métagénomique shotgun** : on séquence tout l'ADN de l'échantillon (virus + hôte humain + autres), sans amplification ciblée. Conséquences pour l'analyse :
-
-- **Pas d'étape de retrait d'amorces** (il n'y en a pas).
-- **Beaucoup de lectures non virales** (surtout de l'hôte humain) : le taux d'alignement sur la référence virale est plus faible — c'est normal, la référence sert aussi à trier les lectures virales.
-- Le génome MPOX est un **ADN double brin de ~197 kb**.
-
----
 
 ## Données
 
 | Caractéristique | Valeur |
 |---|---|
 | Pathogène | MPXV (Monkeypox virus) |
-| Origine | Kenya (cas index, juillet 2024) |
-| Préparation | Métagénomique shotgun (enrichie) |
-| Illumina (paired-end) | `SRR30229922` |
-| Nanopore | `SRR32413059` (PromethION, R10.4.1 + kit v14) |
+| Origine | Kenya (juillet 2024) |
+| Illumina — préparation | NEBNext + **Viral Surveillance Panel** (capture ciblée) |
+| Illumina — séquenceur | NextSeq 2000, paired-end |
+| Illumina — accession | `SRR30229922` |
+| Nanopore — préparation | native barcoding kit v14 **Shotgun metagenomic** |
+| Nanopore — séquenceur | PromethION, flowcell R10.4.1 |
+| Nanopore — accession | `SRR32413059` |
 | BioProject | `PRJNA1147890` |
-| Référence | **NC_003310.1** (Zaire-96-I-16, ~197 kb) |
-
-> Le même échantillon a été séquencé sur les deux plateformes : idéal pour comparer Illumina et Nanopore sur des données identiques.
+| Référence | **NC_003310.1** |
 
 ---
 
@@ -72,35 +63,30 @@ MPOX/
 ├── data/                      ← fichiers partagés (les deux plateformes)
 │   └── reference.fasta            (NC_003310.1)
 │
-├── illumina/                  ← voie lectures courtes
-│   ├── 01_qc/                     (fastp)
+├── illumina/                  
+│   ├── 01_qc/                     
 │   │   ├── README.md
 │   │   └── clean/
-│   ├── 02_mapping/                (bowtie2 → bcftools → consensus)
-│   └── 03_denovo/                 (Kraken2 → SPAdes → BLASTn → QUAST)
+│   ├── 02_mapping/                
+│   └── 03_denovo/   
 │
-├── nanopore/                  ← voie lectures longues
-│   ├── 01_qc/                     (NanoPlot + chopper)
-│   └── 02_mapping/                (minimap2 → Clair3 → bcftools)
+├── nanopore/             
+│   ├── 01_qc/             
+│   └── 02_mapping/  
 │
-└── README.md                  ← ce fichier
+└── README.md 
 ```
-
-Les fichiers partagés (référence, environnement) sont à la racine `MPOX/`. Depuis une étape (ex. `illumina/01_qc/`), on y accède par `../../data/`.
-
----
 
 ## Environnement de travail
 
 Un seul environnement conda regroupe tous les outils (Illumina + Nanopore) :
 
 ```bash
+mv FEF_Afroscreen_Training/bioinfo_practice .
 cd ~/bioinfo_practice/MPOX
 mamba env create -f environment.yml
 conda activate mpox_analyse
 ```
-
----
 
 ## Télécharger les données
 
