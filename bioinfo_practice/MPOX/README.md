@@ -82,7 +82,6 @@ MPOX/
 Un seul environnement conda regroupe tous les outils (Illumina + Nanopore) :
 
 ```bash
-mv FEF_Afroscreen_Training/bioinfo_practice .
 cd ~/bioinfo_practice/MPOX
 mamba env create -f environment.yml
 conda activate mpox_analyse
