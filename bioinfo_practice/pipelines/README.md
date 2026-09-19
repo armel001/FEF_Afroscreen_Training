@@ -11,7 +11,7 @@ Deux pipelines, un par cas d'étude :
 | **SARS-CoV-2** (amplicon) | **GeVarLi** | Snakemake | <https://transvihmi.pages.ird.fr/nfernandez/GeVarLi/en> |
 | **MPOX** (shotgun) | **nf-core/viralrecon** | Nextflow | <https://nf-co.re/viralrecon> |
 
-> **Philosophie** — L'analyse manuelle et les pipelines ne s'opposent pas : comprendre les gestes à la main permet de **savoir ce que le pipeline fait**, de l'utiliser en confiance, et de diagnostiquer quand il échoue.
+> **A savoir** — L'analyse manuelle et les pipelines ne s'opposent pas : comprendre les gestes à la main permet de **savoir ce que le pipeline fait**, de l'utiliser en confiance, et de diagnostiquer quand il échoue.
 
 ---
 
@@ -55,9 +55,6 @@ cp ~/bioinfo_practice/SC2/data/SRR17051908_2.fastq.gz ~/GeVarLi/resources/reads/
 # amorces ARTIC (format BEDPE) pour le retrait par Bamclipper
 cp ~/bioinfo_practice/SC2/data/primers.bedpe ~/GeVarLi/resources/primers/bedpe/
 ```
-
-> **Nommage** — GeVarLi attend `_R1`/`_R2` (pas `_1`/`_2`). On renomme en copiant.
-> **Sans données** — Si `resources/reads/` est vide, GeVarLi utilise son jeu de test SC2 Omicron fourni.
 
 ## 1.3 — Configurer
 
