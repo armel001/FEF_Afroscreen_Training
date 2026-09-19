@@ -31,7 +31,7 @@ L'installation complète est décrite dans la documentation officielle :
 En résumé (se référer à la doc pour les détails et le dépannage) :
 
 ```bash
-# 1. Récupérer le pipeline
+# 1. Récupérer le pipeline 
 git clone --depth 1 https://forge.ird.fr/transvihmi/nfernandez/GeVarLi.git ~/GeVarLi/
 cd ~/GeVarLi/
 
@@ -51,9 +51,6 @@ On réutilise **notre échantillon SC2** analysé à la main. GeVarLi attend les
 # copier et renommer (_1/_2 → _R1/_R2)
 cp ~/bioinfo_practice/SC2/data/SRR17051908_1.fastq.gz ~/GeVarLi/resources/reads/SRR17051908_R1.fastq.gz
 cp ~/bioinfo_practice/SC2/data/SRR17051908_2.fastq.gz ~/GeVarLi/resources/reads/SRR17051908_R2.fastq.gz
-
-# amorces ARTIC (format BEDPE) pour le retrait par Bamclipper
-cp ~/bioinfo_practice/SC2/data/primers.bedpe ~/GeVarLi/resources/primers/bedpe/
 ```
 
 ## 1.3 — Configurer
