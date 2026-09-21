@@ -111,7 +111,8 @@ Tous les outils s'installent via **Conda** (distribution **Miniforge**). Le modu
 
 ```bash
 git clone https://github.com/armel001/FEF_Afroscreen_Training.git
-cd FEF_Afroscreen_Training/bioinfo_practice
+mv FEF_Afroscreen_Training/bioinfo_practice/ .
+cd  bioinfo_practice
 ```
 
 2. **Choisir un cas** (SC2 ou MPOX) et lire son `README.md`.
